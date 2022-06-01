@@ -7,7 +7,7 @@ from lib.utils import get_data_files
 from azure.storage.blob import BlobServiceClient
 from surprise.model_selection import train_test_split
 
-blob_service_client = BlobServiceClient.from_connection_string(os.environ['AzureWebJobsStorage'])
+blob_service_client = BlobServiceClient.from_connection_string(os.environ['STORAGE'])
 
 def main(mytimer: func.TimerRequest) -> None:
     _, df_clicks = get_data_files(blob_service_client)  

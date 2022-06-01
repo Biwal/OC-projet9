@@ -7,7 +7,7 @@ from azure.storage.blob import BlobServiceClient
 import pickle
 
 
-blob_service_client = BlobServiceClient.from_connection_string(os.environ['AzureWebJobsStorage'])
+blob_service_client = BlobServiceClient.from_connection_string(os.environ['STORAGE'])
 
 class CFRecommender:
     def __init__(self):
