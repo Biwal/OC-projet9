@@ -7,7 +7,7 @@ from azure.storage.blob import BlobServiceClient
 import pickle
 
 
-blob_service_client = BlobServiceClient.from_connection_string(os.environ['STORAGE'])
+blob_service_client = BlobServiceClient.from_connection_string(os.environ['AzureWebJobsStorage'])
 
 class CFRecommender:
     def __init__(self):
@@ -33,11 +33,13 @@ class CFRecommender:
         #If we don't have any recommandation, use our data.
         if not recommanded_cat:
             recommanded_cat = self.df_clicks[self.df_clicks['user_id'] == user_ID].nlargest(1, ['rating'])['category_id'].values
-        #Select 5 randoms articles for each recommanded cat.
+        # Select 5 randoms articles for each recommanded cat.
         random_articles_by_cat = [self.df_articles[self.df_articles['category_id'] == x]['article_id'].sample(5).values for x in recommanded_cat]
         #Select one of the recommanded cat and return 5 articles.
         rand_category = random.sample(random_articles_by_cat, 1)
-        return rand_category[0], recommanded_cat
+        # rand_category =  self.df_articles['article_id'].sample(5).values
+        
+        return rand_category, recommanded_cat
 
     #Function from https://github.com/NicolasHug/Surprise/blob/master/examples/top_n_recommendations.py
     def get_top_n(self,  n=5):

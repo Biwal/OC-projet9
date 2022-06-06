@@ -37,8 +37,10 @@ def setup_clicks_file(
 
     # Get Categorie associate for each article
     df_clicks["category_id"] = (
-        df_clicks["click_article_id"].map(dict_article_categories).astype(int)
+        df_clicks["click_article_id"].map(dict_article_categories)
     )
+    df_clicks["category_id"] =df_clicks["category_id"].fillna(0)
+    df_clicks["category_id"] =df_clicks["category_id"].astype(int)
     df_clicks["total_click"] = df_clicks.groupby(["user_id"])[
         "click_article_id"
     ].transform("count")
